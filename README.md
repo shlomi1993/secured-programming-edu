@@ -1,4 +1,4 @@
-# secured-programming-education
+# Secured Programming Education
 This repository contains practical implementations of three classic and widely known cybersecurity attacks - SQL Injection, Buffer Overflow, and Cross-Site Scripting (XSS). Its purpose is to help developers and programmers better understand these vulnerabilities in order to write more secure and robust software.
 
 ## Subprojects
